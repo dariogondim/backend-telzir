@@ -1,6 +1,11 @@
 import { Injectable } from '@nestjs/common';
 import { AplicationErrors } from 'src/errors.interface';
 import { ParamsCost, FinalCost, PlanMinutes, Tariff } from './const.interface';
+import {
+  INVALID_PLAN,
+  INVALID_TIME,
+  OUT_COVERAGE,
+} from './const.validations.errors';
 
 @Injectable()
 export class CostService {
@@ -67,20 +72,17 @@ export class CostService {
 
     const isTimeNegativeOrZero = costIn.time <= 0;
 
+    //tratamento de erros
     if (!appliedTariff) {
-      errors.error.messages.push(
-        'Desculpe, nossos planos não têm cobertura nessa localidade',
-      );
+      errors.error.messages.push(OUT_COVERAGE);
     }
 
     if (!appliedPlan) {
-      errors.error.messages.push('Desculpe, o plano selecionado não existe');
+      errors.error.messages.push(INVALID_PLAN);
     }
 
     if (isTimeNegativeOrZero) {
-      errors.error.messages.push(
-        'Desculpe, o tempo falado deve ser maior que 0',
-      );
+      errors.error.messages.push(INVALID_TIME);
     }
 
     if (errors.error.messages.length > 0) {
@@ -110,21 +112,20 @@ export class CostService {
 
     const isTimeNegativeOrZero = costIn.time <= 0;
 
+    //tratamento de erros
     if (!appliedTariff) {
-      errors.error.messages.push(
-        'Desculpe, nossos planos não têm cobertura nessa localidade',
-      );
+      errors.error.messages.push(OUT_COVERAGE);
     }
 
     if (isTimeNegativeOrZero) {
-      errors.error.messages.push(
-        'Desculpe, o tempo falado deve ser maior que 0',
-      );
+      errors.error.messages.push(INVALID_TIME);
     }
 
     if (errors.error.messages.length > 0) {
       throw errors;
     }
+
+    //fim do tratamento de erros
 
     //a quantidade de minutos
     const minutesNotCovered = costIn.time;
