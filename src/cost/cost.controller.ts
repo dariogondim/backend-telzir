@@ -1,6 +1,8 @@
 import { Controller, Get, Param, Response } from '@nestjs/common';
 import { ComparedCost, ParamsCost } from './const.interface';
 import { CostService } from './cost.service';
+import { formatDecimalValuesToBr } from '../util';
+
 import {
   ApiBadRequestResponse,
   ApiOkResponse,
@@ -16,13 +18,6 @@ import {
 
 @Controller('cost')
 export class CostController {
-  private readonly formatLocale = {
-    locale: 'pt-br',
-  };
-  private readonly formatStyle = {
-    style: 'currency',
-    currency: 'BRL',
-  };
   constructor(private costService: CostService) {}
 
   @ApiTags('costs')
@@ -78,13 +73,13 @@ export class CostController {
 
     try {
       //o custo final com plano
-      const costWithPlan: string = this.costService
-        .getCostWithPlan(paramsCost)
-        .cost.toLocaleString(this.formatLocale.locale, this.formatStyle);
+      const costWithPlan: string = formatDecimalValuesToBr(
+        this.costService.getCostWithPlan(paramsCost).cost,
+      );
       //o custo final sem o plano
-      const costWithoutPlan: string = this.costService
-        .getCostWithoutPlan(paramsCost)
-        .cost.toLocaleString(this.formatLocale.locale, this.formatStyle);
+      const costWithoutPlan: string = formatDecimalValuesToBr(
+        this.costService.getCostWithoutPlan(paramsCost).cost,
+      );
 
       const comparedCost: ComparedCost = {
         costWithPlan,
