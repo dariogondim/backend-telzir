@@ -85,7 +85,7 @@ export class CostController {
         costWithPlan,
         costWithoutPlan,
       };
-
+      console.log(comparedCost);
       return response.status(200).send(comparedCost);
     } catch (error) {
       return response.status(400).send(error);
