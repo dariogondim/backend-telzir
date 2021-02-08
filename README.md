@@ -8,6 +8,10 @@
 $ yarn
 ```
 
+## Documentation
+
+http://localhost:3001/api
+
 ## Running the app
 
 ```bash

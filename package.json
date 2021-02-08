@@ -26,6 +26,7 @@
     "@nestjs/platform-express": "^7.5.5",
     "@nestjs/swagger": "^4.7.5",
     "@types/cors": "^2.8.8",
+    "body-parser": "^1.19.0",
     "class-validator": "^0.12.2",
     "cors": "^2.8.5",
     "helmet": "^4.2.0",

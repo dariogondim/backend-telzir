@@ -1,4 +1,4 @@
-import { Controller, Get, Param, Response } from '@nestjs/common';
+import { Controller, Get, Header, Param, Response } from '@nestjs/common';
 import { ComparedCost, ParamsCost } from './const.interface';
 import { CostService } from './cost.service';
 import { formatDecimalValuesToBr } from '../util';
@@ -61,6 +61,10 @@ export class CostController {
     allowEmptyValue: false,
     example: 'FaleMais 30',
   })
+  @Header('Access-Control-Allow-Origin', '*')
+  @Header('Access-Control-Allow-Methods', 'POST,GET,OPTION')
+  @Header('Access-Control-Allow-Headers', '*')
+  @Header('Access-Control-Max-Age', '86400')
   @Get('from/:from/to/:to/time/:time/plan/:plan')
   getCoast(@Param() params, @Response() response): ComparedCost {
     const { from, to, time, plan } = params;
